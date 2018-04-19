@@ -9,11 +9,11 @@ Add this to your `app/build.gradle`
 
 	repositories {
 	    	...
-	    	maven { url 'https://github.com/FireZenk/maven-repo/raw/master/'}
+			maven { url 'https://jitpack.io' }
 	}
 	dependencies {
 			...
-	        compile 'org.firezenk:audiowaves:1.1@aar'
+	        implementation 'com.github.derohimat:AudioWaves:1.0'
 	}
 
 ### USAGE:
