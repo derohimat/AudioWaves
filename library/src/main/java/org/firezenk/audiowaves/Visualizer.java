@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
+import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -41,10 +42,10 @@ public class Visualizer extends LinearLayout implements IVisualizer {
     private int LINE_BORDER_RADIUS = 50;
     private int BALL_DIAMETER = 20;
 
-    private int COLOR_UNIFORM = android.R.color.black;
+    @ColorRes private int COLOR_UNIFORM = android.R.color.black;
     private boolean COLOR_IS_GRADIENT = false;
-    private int COLOR_GRADIENT_START = android.R.color.white;
-    private int COLOR_GRADIENT_END = android.R.color.black;
+    @ColorRes private int COLOR_GRADIENT_START = android.R.color.white;
+    @ColorRes private int COLOR_GRADIENT_END = android.R.color.black;
 
     private Context context;
     private Random randomNum = new Random();
@@ -56,7 +57,7 @@ public class Visualizer extends LinearLayout implements IVisualizer {
     public Visualizer(Context context) {
         super(context);
         this.context = context;
-        if(!isInEditMode()) {
+        if (!isInEditMode()) {
             this.init();
         }
     }
@@ -65,49 +66,49 @@ public class Visualizer extends LinearLayout implements IVisualizer {
         super(context, attrs);
         this.context = context;
 
-        if(!isInEditMode()){
+        if (!isInEditMode()) {
             this.attributes(attrs);
             this.init();
         }
     }
 
-    public Visualizer(Context context, AttributeSet attrs, int defStyleAttr){
-            super(context, attrs, defStyleAttr);
+    public Visualizer(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         this.context = context;
 
-        if(!isInEditMode()){
+        if (!isInEditMode()) {
             this.attributes(attrs);
             this.init();
         }
     }
 
     private void attributes(AttributeSet attrs) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.audiowaves__style,
                 0, 0);
 
         try {
-            FORMAT = a.getInteger(R.styleable.audiowaves__style_aw_format, FORMAT);
-            VISUALIZER_HEIGHT = a.getInteger(R.styleable.audiowaves__style_aw_height, VISUALIZER_HEIGHT);
-            VISUALIZER_WIDTH = a.getInteger(R.styleable.audiowaves__style_aw_width, VISUALIZER_WIDTH);
-            VISUALIZER_NUM_WAVES = a.getInteger(R.styleable.audiowaves__style_aw_num_waves, VISUALIZER_NUM_WAVES);
-            VISUALIZER_GRAVITY = a.getInteger(R.styleable.audiowaves__style_aw_gravity, VISUALIZER_GRAVITY);
+            FORMAT = typedArray.getInteger(R.styleable.audiowaves__style_aw_format, FORMAT);
+            VISUALIZER_HEIGHT = typedArray.getInteger(R.styleable.audiowaves__style_aw_height, VISUALIZER_HEIGHT);
+            VISUALIZER_WIDTH = typedArray.getInteger(R.styleable.audiowaves__style_aw_width, VISUALIZER_WIDTH);
+            VISUALIZER_NUM_WAVES = typedArray.getInteger(R.styleable.audiowaves__style_aw_num_waves, VISUALIZER_NUM_WAVES);
+            VISUALIZER_GRAVITY = typedArray.getInteger(R.styleable.audiowaves__style_aw_gravity, VISUALIZER_GRAVITY);
 
-            LINE_WIDTH = a.getInteger(R.styleable.audiowaves__style_aw_line_with, LINE_WIDTH);
-            LINE_MIN_WIDTH = a.getInteger(R.styleable.audiowaves__style_aw_line_min_with, LINE_MIN_WIDTH);
-            LINE_HEIGHT = a.getInteger(R.styleable.audiowaves__style_aw_line_height, LINE_HEIGHT);
-            LINE_MIN_HEIGHT = a.getInteger(R.styleable.audiowaves__style_aw_line_min_height, LINE_MIN_HEIGHT);
-            LINE_SPACING = a.getInteger(R.styleable.audiowaves__style_aw_line_spacing, LINE_SPACING);
-            LINE_BORDER_RADIUS = a.getInteger(R.styleable.audiowaves__style_aw_line_border_radius, LINE_BORDER_RADIUS);
-            BALL_DIAMETER = a.getInteger(R.styleable.audiowaves__style_aw_ball_diameter, BALL_DIAMETER);
+            LINE_WIDTH = typedArray.getInteger(R.styleable.audiowaves__style_aw_line_with, LINE_WIDTH);
+            LINE_MIN_WIDTH = typedArray.getInteger(R.styleable.audiowaves__style_aw_line_min_with, LINE_MIN_WIDTH);
+            LINE_HEIGHT = typedArray.getInteger(R.styleable.audiowaves__style_aw_line_height, LINE_HEIGHT);
+            LINE_MIN_HEIGHT = typedArray.getInteger(R.styleable.audiowaves__style_aw_line_min_height, LINE_MIN_HEIGHT);
+            LINE_SPACING = typedArray.getInteger(R.styleable.audiowaves__style_aw_line_spacing, LINE_SPACING);
+            LINE_BORDER_RADIUS = typedArray.getInteger(R.styleable.audiowaves__style_aw_line_border_radius, LINE_BORDER_RADIUS);
+            BALL_DIAMETER = typedArray.getInteger(R.styleable.audiowaves__style_aw_ball_diameter, BALL_DIAMETER);
 
-            COLOR_UNIFORM = a.getColor(R.styleable.audiowaves__style_aw_color_uniform, getResources().getColor(COLOR_UNIFORM));
-            COLOR_IS_GRADIENT = a.getBoolean(R.styleable.audiowaves__style_aw_color_is_gradient, COLOR_IS_GRADIENT);
-            COLOR_GRADIENT_START = a.getColor(R.styleable.audiowaves__style_aw_color_gradient_start, getResources().getColor(COLOR_GRADIENT_START));
-            COLOR_GRADIENT_END = a.getColor(R.styleable.audiowaves__style_aw_color_gradient_end, getResources().getColor(COLOR_GRADIENT_END));
+            COLOR_UNIFORM = typedArray.getColor(R.styleable.audiowaves__style_aw_color_uniform, getResources().getColor(COLOR_UNIFORM));
+            COLOR_IS_GRADIENT = typedArray.getBoolean(R.styleable.audiowaves__style_aw_color_is_gradient, COLOR_IS_GRADIENT);
+            COLOR_GRADIENT_START = typedArray.getColor(R.styleable.audiowaves__style_aw_color_gradient_start, getResources().getColor(COLOR_GRADIENT_START));
+            COLOR_GRADIENT_END = typedArray.getColor(R.styleable.audiowaves__style_aw_color_gradient_end, getResources().getColor(COLOR_GRADIENT_END));
         } finally {
-            a.recycle();
+            typedArray.recycle();
         }
     }
 
@@ -135,16 +136,16 @@ public class Visualizer extends LinearLayout implements IVisualizer {
                 this.setGravity(Gravity.CENTER);
                 break;
             case 1:
-                this.setGravity(Gravity.CENTER_VERTICAL|Gravity.START);
+                this.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
                 break;
             case 2:
-                this.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
+                this.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
                 break;
             case 3:
-                this.setGravity(Gravity.CENTER_VERTICAL|Gravity.END);
+                this.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
                 break;
             case 4:
-                this.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM);
+                this.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
                 break;
         }
 
@@ -172,7 +173,8 @@ public class Visualizer extends LinearLayout implements IVisualizer {
             setBackgroundAPI16(v);
     }
 
-    @TargetApi(15) private void setBackgroundAPI15(View v) {
+    @TargetApi(15)
+    private void setBackgroundAPI15(View v) {
         GradientDrawable gd = null;
 
         if (COLOR_IS_GRADIENT) {
@@ -213,7 +215,8 @@ public class Visualizer extends LinearLayout implements IVisualizer {
         v.setBackgroundDrawable(gd);
     }
 
-    @TargetApi(16) private void setBackgroundAPI16(View v) {
+    @TargetApi(16)
+    private void setBackgroundAPI16(View v) {
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(LINE_BORDER_RADIUS);
         gd.setGradientRadius(90.f);
@@ -253,11 +256,11 @@ public class Visualizer extends LinearLayout implements IVisualizer {
                 uiThread.post(new Runnable() {
                     @Override
                     public void run() {
-                        int pitch =  pitchInHz > 0 ? (int) pitchInHz : 1;
+                        int pitch = pitchInHz > 0 ? (int) pitchInHz : 1;
 
                         for (int i = 0; i < waveList.size(); i++) {
                             int random = randomNum.nextInt(10 - 1) + 1;
-                            int size = pitch/random;
+                            int size = pitch / random;
 
                             switch (FORMAT) {
                                 case 0:
@@ -268,8 +271,8 @@ public class Visualizer extends LinearLayout implements IVisualizer {
                                     break;
                                 case 1:
                                     params = new LinearLayout.LayoutParams(
-                                            size < LINE_MIN_WIDTH ? LINE_MIN_WIDTH : size/2,
-                                            size < LINE_MIN_HEIGHT ? LINE_MIN_HEIGHT : size/2);
+                                            size < LINE_MIN_WIDTH ? LINE_MIN_WIDTH : size / 2,
+                                            size < LINE_MIN_HEIGHT ? LINE_MIN_HEIGHT : size / 2);
                                     params.setMargins(0, LINE_SPACING, 0, LINE_SPACING);
                                     break;
                                 case 2:
@@ -280,8 +283,8 @@ public class Visualizer extends LinearLayout implements IVisualizer {
                                     break;
                                 case 3:
                                     params = new LinearLayout.LayoutParams(
-                                            size < LINE_MIN_WIDTH ? LINE_MIN_WIDTH : size/2,
-                                            size < LINE_MIN_HEIGHT ? LINE_MIN_HEIGHT : size/2);
+                                            size < LINE_MIN_WIDTH ? LINE_MIN_WIDTH : size / 2,
+                                            size < LINE_MIN_HEIGHT ? LINE_MIN_HEIGHT : size / 2);
                                     params.setMargins(LINE_SPACING, 0, LINE_SPACING, 0);
                                     break;
                             }
@@ -309,83 +312,102 @@ public class Visualizer extends LinearLayout implements IVisualizer {
         listeningThread.interrupt();
     }
 
-    @Override public void setFormat(int format) {
+    @Override
+    public void setFormat(int format) {
         this.FORMAT = format;
     }
 
-    @Override public void setDimens(int width, int height) {
+    @Override
+    public void setDimens(int width, int height) {
         this.VISUALIZER_WIDTH = width;
         this.VISUALIZER_HEIGHT = height;
     }
 
-    @Override public void setWidth(int width) {
+    @Override
+    public void setWidth(int width) {
         this.VISUALIZER_WIDTH = width;
     }
 
-    @Override public void setHeight(int height) {
+    @Override
+    public void setHeight(int height) {
         this.VISUALIZER_HEIGHT = height;
     }
 
-    @Override public void setNumWaves(int waves) {
+    @Override
+    public void setNumWaves(int waves) {
         this.VISUALIZER_NUM_WAVES = waves;
     }
 
-    @Override public void setLineDimens(int width, int height) {
+    @Override
+    public void setLineDimens(int width, int height) {
         this.LINE_WIDTH = width;
         this.LINE_HEIGHT = height;
     }
 
-    @Override public void setLineWidth(int width) {
+    @Override
+    public void setLineWidth(int width) {
         this.LINE_WIDTH = width;
     }
 
-    @Override public void setLineHeight(int height) {
+    @Override
+    public void setLineHeight(int height) {
         this.LINE_HEIGHT = height;
     }
 
-    @Override public void setLineMinDimens(int minWidth, int minHeight) {
+    @Override
+    public void setLineMinDimens(int minWidth, int minHeight) {
         this.LINE_MIN_WIDTH = minWidth;
         this.LINE_MIN_HEIGHT = minHeight;
     }
 
-    @Override public void setLineMinWidth(int minWidth) {
+    @Override
+    public void setLineMinWidth(int minWidth) {
         this.LINE_MIN_WIDTH = minWidth;
     }
 
-    @Override public void setLineMinHeight(int minHeight) {
+    @Override
+    public void setLineMinHeight(int minHeight) {
         this.LINE_MIN_HEIGHT = minHeight;
     }
 
-    @Override public void setLineSpacing(int spacing) {
+    @Override
+    public void setLineSpacing(int spacing) {
         this.LINE_SPACING = spacing;
     }
 
-    @Override public void setLineBorderRadius(int borderRadius) {
+    @Override
+    public void setLineBorderRadius(int borderRadius) {
         this.LINE_BORDER_RADIUS = borderRadius;
     }
 
-    @Override public void setBallDiameter(int ballDiameter) {
+    @Override
+    public void setBallDiameter(int ballDiameter) {
         this.BALL_DIAMETER = ballDiameter;
     }
 
-    @Override public void setColor(int color) {
+    @Override
+    public void setColor(int color) {
         this.COLOR_UNIFORM = color;
     }
 
-    @Override public void setIsGradient(boolean isGradient) {
+    @Override
+    public void setIsGradient(boolean isGradient) {
         this.COLOR_IS_GRADIENT = isGradient;
     }
 
-    @Override public void setGradient(int startColor, int endColor) {
+    @Override
+    public void setGradient(int startColor, int endColor) {
         this.COLOR_GRADIENT_START = startColor;
         this.COLOR_GRADIENT_END = endColor;
     }
 
-    @Override public void setGradientColorStart(int color) {
+    @Override
+    public void setGradientColorStart(int color) {
         this.COLOR_GRADIENT_START = color;
     }
 
-    @Override public void setGradientColorEnd(int color) {
+    @Override
+    public void setGradientColorEnd(int color) {
         this.COLOR_GRADIENT_END = color;
     }
 }
